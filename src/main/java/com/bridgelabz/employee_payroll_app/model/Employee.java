@@ -14,7 +14,6 @@ import lombok.*;
 @ToString
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private double salary;

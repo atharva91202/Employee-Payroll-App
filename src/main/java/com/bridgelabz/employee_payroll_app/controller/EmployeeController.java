@@ -1,15 +1,19 @@
 package com.bridgelabz.employee_payroll_app.controller;
 
+import com.bridgelabz.employee_payroll_app.dto.EmployeeDTO;
 import com.bridgelabz.employee_payroll_app.model.Employee;
 import com.bridgelabz.employee_payroll_app.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/employees")
+@Validated
 public class EmployeeController {
 
     @Autowired
@@ -34,14 +38,20 @@ public class EmployeeController {
 
     // POST - Adding an employee
     @PostMapping
-    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> addEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        employee.setName(employeeDTO.getName());
+        employee.setSalary(employeeDTO.getSalary());
         return employeeService.addEmployee(employee);
     }
 
     // PUT - Updating employee data
     @PutMapping("/id/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
-        return employeeService.updateEmployee(id, employee);
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeeDTO employeeDTO) {
+        Employee updatedEmployee = new Employee();
+        updatedEmployee.setName(employeeDTO.getName());
+        updatedEmployee.setSalary(employeeDTO.getSalary());
+        return employeeService.updateEmployee(id, updatedEmployee);
     }
 
     // DELETE - Removing employee data
