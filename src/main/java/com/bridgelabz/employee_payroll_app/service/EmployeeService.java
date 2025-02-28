@@ -1,4 +1,5 @@
 package com.bridgelabz.employee_payroll_app.service;
+import com.bridgelabz.employee_payroll_app.exception.EmployeeNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import com.bridgelabz.employee_payroll_app.model.Employee;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class EmployeeService {
             return ResponseEntity.ok(employee.get());
         } else {
             log.warn("Employee with ID {} not found", id);
-            return ResponseEntity.notFound().build();
+            throw new EmployeeNotFoundException("Employee with ID " + id + " not found.");
         }
     }
 
@@ -55,7 +56,7 @@ public class EmployeeService {
             }
         }
         log.warn("Employee with ID {} not found for update",id);
-        return ResponseEntity.notFound().build();
+        throw new EmployeeNotFoundException("Employee with ID " + id + " not found.");
     }
 
     // Delete Employee
@@ -67,6 +68,6 @@ public class EmployeeService {
             return ResponseEntity.ok("Employee deleted successfully for ID: " + id);
         }
         log.warn("Employee with ID {} not found for deletion",id);
-        return ResponseEntity.notFound().build();
+        throw new EmployeeNotFoundException("Employee with ID " + id + " not found.");
     }
 }
